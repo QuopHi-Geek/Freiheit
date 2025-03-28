@@ -12,7 +12,7 @@ Create end-to-end tests which verify the following conditions on our LOTTO24 gam
 * Verify that the correct help page is opened
 * Verify that the correct game is selected in the combo box on the help page
 * Verify that the button on the help page links to the correct game 
-![image](https://github.com/user-attachments/assets/e8a23883-615f-45d1-9749-e1bbff6d14e9)
+
 
 
 Prerequisites:
@@ -22,4 +22,4 @@ Prerequisites:
 * Apply common patterns to implement your solution
 * Add a `README`-file to your project and include these notes as well as your own
 * Please include which browser you have used for development
-![image](https://github.com/user-attachments/assets/2fd579a5-2ff1-4ddc-9638-3bd09b444b88)
+
