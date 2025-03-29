@@ -2,37 +2,42 @@ import { test, expect } from '@playwright/test';
 import { HomePage } from '../pages/HomePage.ts';
 import { GamePage } from '../pages/GamePage.ts';
 import { HelpPage } from '../pages/HelpPage.ts';
+import GAME_DATA from '../testdata.ts';
 
-const GAME_DATA = {
-  "Goldrausch": {
-        "help_link_text": "Zur Goldrausch Hilfe",
-        "help_page_url_part": "/goldrausch",
-        "help_page_game_selector_value": "goldrausch",
-        "help_page_game_button_url_part": "/goldrausch"
-    },
-};
+
+test.describe.configure({ mode: 'parallel' });
+const baseURL = 'https://games.lotto24.de';
+
 
   test.describe('LOTTO24 Games Tests', () => {
     test.use({
       viewport: { width: 470, height: 770 },
       ignoreHTTPSErrors: true,
-      baseURL: 'https://games.lotto24.de',
+      baseURL,
     });
 
   
     Object.keys(GAME_DATA).forEach((gameName) => {
-      test(`Should test game for ${gameName}`, async ({ page }) => {
+      test(`should test game flow for ${gameName}`, async ({ page }) => {
+        const gameData = GAME_DATA[gameName];
         const homePage = new HomePage(page);
-      
-        await homePage.goto();
+        const gamePage = new GamePage(page);
+        const helpPage = new HelpPage(page);
+
+        await homePage.goto(baseURL);
   
-        //Verify that the ZEAL Instant Games section
+        //Verify that the “ZEAL Instant Games” teaser section
         await expect(homePage.zealInstantGamesTeaser).toBeVisible();
+       
+        await homePage.swipeRightInZealTeaser(2);
 
-        await page.pause();
-
+        //Click and select game by name
+        await homePage.clickGameTeaserByName(gameName);
+  
+        //Verify that the correct game page is opened / loaded
+         await gamePage.verifyGamePageUrl(gameName);
+    
         
       });
     });
   });
-

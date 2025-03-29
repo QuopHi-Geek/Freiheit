@@ -5,8 +5,8 @@ import { GameData } from '../testdata.ts';
 export class HelpPage {
     constructor(public page: Page) {}
   
-    async verifyHelpPageUrl(gameData: GameData) {
-      await expect(this.page).toHaveURL(new RegExp(gameData.help_page_url_part));
+    async verifyHelpPageUrl(gameName: string) {
+      await expect(this.page).toHaveURL(new RegExp(`/help/${gameName.toLowerCase().replace(/ /g, '')}`));
     }
   
     get gameSelector(): Locator {

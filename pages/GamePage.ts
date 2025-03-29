@@ -4,12 +4,11 @@ export class GamePage {
     constructor(public page: Page) {}
   
     async verifyGamePageUrl(gameName: string) {
-      await expect(this.page).toHaveURL(new RegExp(`/games/${gameName.toLowerCase()}`));
+      await expect(this.page).toHaveURL(new RegExp(`/games/${gameName.toLowerCase().replace(/ /g, '')}`));
     }
   
     getHelpLink(gameName: string): Locator {
-      const gameData = GAME_DATA[gameName];
-      return this.page.locator(`a:has-text("${gameData.help_link_text}")`);
+      return this.page.getByRole('link', { name: `Zur ${gameName} Hilfe` });
     }
   
     async clickHelpLink(gameName: string) {

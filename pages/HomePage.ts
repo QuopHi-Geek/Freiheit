@@ -3,8 +3,8 @@ import { Page, Locator } from '@playwright/test';
 export class HomePage {
   constructor(public page: Page) {}
 
-  async goto() {
-    await this.page.goto('https://games.lotto24.de');
+  async goto(baseURL: string) {
+    await this.page.goto(baseURL);
     await this.acceptCookies();
   }
 
@@ -13,52 +13,41 @@ export class HomePage {
   }
 
   get zealInstantGamesTeaser(): Locator {
-    return this.page.locator('section:has-text("ZEAL Instant Games")');
+    return this.page.getByRole('link', { name: 'ZEAL Instant Games', exact: true });
   }
 
-  get zealInstantGamesSwiper(): Locator {
-    return this.zealInstantGamesTeaser.locator('.swiper-wrapper');
+  get zealInstantGamesTeaserBanner(): Locator {
+    return this.page.locator("(//a[@class='container'])[1]");
+
+  } 
+
+  get zealInstantGamesButton(): Locator {
+    return this.page.locator('teaser-product-teaser-games-ui-layout').filter({ hasText: 'ZEAL Instant Games Alle' }).getByRole('button').first();
+  }
+
+  get zealInstantGamesNextButton(): Locator {
+    return this.page.locator('teaser-product-teaser-games-ui-layout').filter({ hasText: 'ZEAL Instant Games Alle' }).getByRole('button').nth(1);
   }
 
   async swipeRightInZealTeaser(times: number = 1) {
-    const swiper = this.zealInstantGamesSwiper;
-    for (let i = 0; i < times; i++) {
-      await swiper.evaluate((node) => {
-        const swiperInstance = node.swiper;
-        if (swiperInstance) {
-          swiperInstance.slideNext();
-        } else {
-          node.scrollBy(300, 0);
-        }
-      });
-      await this.page.waitForTimeout(500); // Wait for the swipe animation to complete
-    }
-  }
+    const button = this.zealInstantGamesButton;
+    const nextButton = this.zealInstantGamesNextButton;
+    const zealTeaserBanner = this.zealInstantGamesTeaserBanner;
 
-  async getFirstGameTeaser(): Promise<Locator> {
-    return this.zealInstantGamesTeaser.locator('.swiper-slide:not(.swiper-slide-duplicate) a').first();
-  }
+    await zealTeaserBanner.scrollIntoViewIfNeeded()
+    await this.page.waitForTimeout(500);
 
-  async getGameTeaserByName(gameName: string): Promise<Locator | null> {
-    const allTeasers = this.zealInstantGamesTeaser.locator('.swiper-slide:not(.swiper-slide-duplicate) a');
-    const count = await allTeasers.count();
-    for (let i = 0; i < count; i++) {
-      const teaser = allTeasers.nth(i);
-      const gameNameInTeaser = await teaser.locator('h3').textContent();
-      if (gameNameInTeaser?.trim() === gameName) {
-        return teaser;
-      }
-    }
-    return null;
-  }
+    await zealTeaserBanner.hover();
+    await zealTeaserBanner.focus();
 
-  async clickFirstGameTeaser() {
-    const firstGameTeaser = await this.getFirstGameTeaser();
-    await firstGameTeaser.click();
+    await button.click();
+    await this.page.waitForTimeout(500);
+    await nextButton.click();
+
   }
 
   async clickGameTeaserByName(gameName: string) {
-    const gameTeaser = await this.getGameTeaserByName(gameName);
+    const gameTeaser = this.page.locator(`a:has-text("${gameName}")`);
     if (gameTeaser) {
       await gameTeaser.click();
     } else {
