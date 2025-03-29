@@ -1,5 +1,25 @@
 # Freiheit
 
+Git Repo: https://github.com/QuopHi-Geek/Freiheit.git
+
+
+Task Summary:
+* Test was done severally on separate browsers Chrome , Firefox , Webkit and parallel execution
+* Test was done on different viewports/screen sizes , mobile , tablet
+
+
+
+Some Challenges:
+* The UI for the games website is buggy and some elements cannot be automated
+* Even with specific and unique selectors, some specific elements cannot be focused and thus causing page glitches /loop during automation
+
+
+Suggestions:
+* Unique locators can be assigned to some common elements for the web page.
+
+* For automation of web and mobile enabled apps test frameworks with page objects references are more efficient and maintainable
+
+
 Features:
 Create end-to-end tests which verify the following conditions on our LOTTO24 games area (https://games.lotto24.de):
 * Open the games area on a mobile viewport 
@@ -23,3 +43,6 @@ Prerequisites:
 * Add a `README`-file to your project and include these notes as well as your own
 * Please include which browser you have used for development
 
+
+Task Summary Results:
+![Test summary report](images/Test%20Report.png)
