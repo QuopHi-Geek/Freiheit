@@ -36,8 +36,27 @@ const baseURL = 'https://games.lotto24.de';
   
         //Verify that the correct game page is opened / loaded
          await gamePage.verifyGamePageUrl(gameName);
+
+        //Verify and click helpLink
+        await gamePage.clickHelpLink(gameName);
+
+         //Verify that the correct help page is opened / loaded
+         await helpPage.verifyHelpPageUrl(gameName);
+
+         //Verify that the correct game selected in combobox
+         await helpPage.verifySelectedGameInComboBox(gameData);
+
+         //Verify back to Game button
+         await helpPage.verifyBackToGameButtonLink(gameData); 
+
+         //click an access game from help page link 
+         await helpPage.goToGamePageFromHelpPageBackToGameButtonLink(gameName);
+         
+         //Verify that the correct game page loaded
+         await gamePage.verifyGamePageUrl(gameName);
     
-        
+         await page.close();
+  
       });
     });
   });
