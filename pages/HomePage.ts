@@ -17,12 +17,15 @@ export class HomePage {
   }
 
   get zealInstantGamesTeaserBanner(): Locator {
-    return this.page.locator("(//a[@class='container'])[1]");
+
+    return this.page.getByRole('link', { name: 'the bookmaker The Bookmaker' });
 
   } 
 
   get zealInstantGamesButton(): Locator {
-    return this.page.locator('teaser-product-teaser-games-ui-layout').filter({ hasText: 'ZEAL Instant Games Alle' }).getByRole('button').first();
+
+    return this.page.locator('teaser-product-teaser-games-ui-layout').filter({ hasText: 'ZEAL Instant Games Alle' }).getByRole('button');
+
   }
 
   get zealInstantGamesNextButton(): Locator {

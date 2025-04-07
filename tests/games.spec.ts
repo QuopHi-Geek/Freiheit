@@ -38,6 +38,7 @@ const baseURL = 'https://games.lotto24.de';
          await gamePage.verifyGamePageUrl(gameName);
 
         //Verify and click helpLink
+        await gamePage.verifyHelpLink(gameName);
         await gamePage.clickHelpLink(gameName);
 
          //Verify that the correct help page is opened / loaded
